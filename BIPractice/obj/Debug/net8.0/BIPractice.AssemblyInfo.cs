@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BIPractice")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+953e4aceea91236df472bd01e4cea2239423e594")]
 [assembly: System.Reflection.AssemblyProductAttribute("BIPractice")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BIPractice")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

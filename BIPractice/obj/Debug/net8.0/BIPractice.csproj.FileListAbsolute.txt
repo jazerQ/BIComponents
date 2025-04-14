@@ -27,3 +27,4 @@ C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\refi
 C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPractice.pdb
 C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPractice.genruntimeconfig.cache
 C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\ref\BIPractice.dll
+C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPractice.sourcelink.json
