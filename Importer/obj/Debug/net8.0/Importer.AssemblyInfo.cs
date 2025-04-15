@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("BIPractice")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Importer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e02973f190143cd4168e3aacf1cb98cb53e1ec0b")]
-[assembly: System.Reflection.AssemblyProductAttribute("BIPractice")]
-[assembly: System.Reflection.AssemblyTitleAttribute("BIPractice")]
+[assembly: System.Reflection.AssemblyProductAttribute("Importer")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Importer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Создано классом WriteCodeFragment MSBuild.
