@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ezXmNttwbpwM7bTxsv5GorK5JG7xRdsLDU8YmaC1fxU=",
+  "Hash": "8n0BlLd5AxnjcBo/Oq3h76Zw+kF9JbjlvVZ/9dJHi1k=",
   "Source": "BIPractice",
   "BasePath": "_content/BIPractice",
   "Mode": "Default",
@@ -16,6 +16,44 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\jazer\\.nuget\\packages\\chartjs.blazor.fork\\2.0.2\\contentFiles\\any\\netstandard2.1\\wwwroot\\ChartJsBlazorInterop.js",
+      "SourceId": "BIPractice",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\jazer\\Desktop\\SuperProjects\\BIPractice\\BIPractice\\wwwroot\\",
+      "BasePath": "_content/BIPractice",
+      "RelativePath": "ChartJsBlazorInterop.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\jazer\\.nuget\\packages\\chartjs.blazor.fork\\2.0.2\\contentFiles\\any\\netstandard2.1\\wwwroot\\ChartJsBlazorInterop.js"
+    },
+    {
+      "Identity": "C:\\Users\\jazer\\.nuget\\packages\\chartjs.blazor.fork\\2.0.2\\staticwebassets\\ChartJsBlazorInterop.js",
+      "SourceId": "ChartJs.Blazor.Fork",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\jazer\\.nuget\\packages\\chartjs.blazor.fork\\2.0.2\\staticwebassets\\",
+      "BasePath": "_content/ChartJs.Blazor.Fork",
+      "RelativePath": "ChartJsBlazorInterop.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\jazer\\.nuget\\packages\\chartjs.blazor.fork\\2.0.2\\staticwebassets\\ChartJsBlazorInterop.js"
+    },
     {
       "Identity": "C:\\Users\\jazer\\Desktop\\SuperProjects\\BIPractice\\BIPractice\\obj\\Debug\\net8.0\\scopedcss\\bundle\\BIPractice.styles.css",
       "SourceId": "BIPractice",

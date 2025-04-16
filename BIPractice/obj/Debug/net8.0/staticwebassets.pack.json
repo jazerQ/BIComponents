@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\jazer\\.nuget\\packages\\chartjs.blazor.fork\\2.0.2\\contentFiles\\any\\netstandard2.1\\wwwroot\\ChartJsBlazorInterop.js",
+      "PackagePath": "staticwebassets\\ChartJsBlazorInterop.js"
+    },
+    {
       "Id": "C:\\Users\\jazer\\Desktop\\SuperProjects\\BIPractice\\BIPractice\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BIPractice.bundle.scp.css",
       "PackagePath": "staticwebassets\\BIPractice.bundle.scp.css"
     },

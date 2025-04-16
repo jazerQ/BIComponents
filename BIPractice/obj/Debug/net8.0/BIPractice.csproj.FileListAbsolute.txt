@@ -28,3 +28,7 @@ C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPr
 C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPractice.genruntimeconfig.cache
 C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\ref\BIPractice.dll
 C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPractice.sourcelink.json
+C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\bin\Debug\net8.0\ChartJs.Blazor.dll
+C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPractice.csproj.AssemblyReference.cache
+C:\Users\jazer\Desktop\SuperProjects\BIPractice\BIPractice\obj\Debug\net8.0\BIPractice.csproj.Up2Date
