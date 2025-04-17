@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIPractice", "BIPractice\BIPractice.csproj", "{46E6CA6D-FC92-4DF5-AC64-805247EDA61E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{99A69295-1CF3-4248-A0B4-FFBB5C68F5FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{474E2286-3737-4C78-AFF7-4F1CFB4F0893}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Importer", "Importer\Importer.csproj", "{7E51C087-A95C-41B6-881D-6E4BD7400C38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIPractice.Web", "BIPractice.Web\BIPractice.Web.csproj", "{B9C0070D-33D7-484F-BDCC-5526FEF42486}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,10 +14,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46E6CA6D-FC92-4DF5-AC64-805247EDA61E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46E6CA6D-FC92-4DF5-AC64-805247EDA61E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46E6CA6D-FC92-4DF5-AC64-805247EDA61E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46E6CA6D-FC92-4DF5-AC64-805247EDA61E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{99A69295-1CF3-4248-A0B4-FFBB5C68F5FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{99A69295-1CF3-4248-A0B4-FFBB5C68F5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99A69295-1CF3-4248-A0B4-FFBB5C68F5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,5 +26,9 @@ Global
 		{7E51C087-A95C-41B6-881D-6E4BD7400C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E51C087-A95C-41B6-881D-6E4BD7400C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E51C087-A95C-41B6-881D-6E4BD7400C38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9C0070D-33D7-484F-BDCC-5526FEF42486}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9C0070D-33D7-484F-BDCC-5526FEF42486}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9C0070D-33D7-484F-BDCC-5526FEF42486}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9C0070D-33D7-484F-BDCC-5526FEF42486}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

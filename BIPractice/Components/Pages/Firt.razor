@@ -25,7 +25,7 @@
                 Text = "Title Of My Chart"
             }
         };
-        _pieConfig.Data = new Pie
+        
         foreach (var party in new[] { "Party 1", "Party 2", "Party 3" })
         {
             _pieConfig.Data.Labels.Add(party);
@@ -33,7 +33,7 @@
 
         var dataset = new PieDataset<int>([35, 50, 15])
         {
-            BackgroundColor = new[] { ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString() }
+            BackgroundColor = new[] { ColorUtil.ColorHexString(145, 63,156), ColorUtil.ColorHexString(255,174,173), ColorUtil.ColorHexString(165,24,46) }
         };
         
         _pieConfig.Data.Datasets.Add(dataset);

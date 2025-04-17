@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Core")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("BIPractice.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bf8cd01235f81e7efec2c4bd5ae0665af1fe3897")]
-[assembly: System.Reflection.AssemblyProductAttribute("Core")]
-[assembly: System.Reflection.AssemblyTitleAttribute("Core")]
+[assembly: System.Reflection.AssemblyProductAttribute("BIPractice.Web")]
+[assembly: System.Reflection.AssemblyTitleAttribute("BIPractice.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Создано классом WriteCodeFragment MSBuild.
