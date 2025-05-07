@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Importer", "Importer\Import
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIPractice.Web", "BIPractice.Web\BIPractice.Web.csproj", "{B9C0070D-33D7-484F-BDCC-5526FEF42486}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B9C0070D-33D7-484F-BDCC-5526FEF42486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9C0070D-33D7-484F-BDCC-5526FEF42486}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9C0070D-33D7-484F-BDCC-5526FEF42486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
