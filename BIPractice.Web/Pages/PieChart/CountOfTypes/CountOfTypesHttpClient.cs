@@ -8,7 +8,6 @@ public class CountOfTypesHttpClient(ILogger<CountOfTypesHttpClient> logger, Http
     {
         try
         {
-            Console.WriteLine("ЖОПА");
             return await client
                 .GetFromJsonAsync<IEnumerable<ResponseDto>>("http://localhost:5186/pie") ??
                    throw new Exception("ответ пришел пустым");
