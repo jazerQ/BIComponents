@@ -1,0 +1,63 @@
+@page "/PieChart/Count"
+@using ChartJs.Blazor.PieChart
+@inject CountOfTypesHttpClient httpClient;
+
+<PageTitle>Count</PageTitle>
+
+@if (_pieConfig != null)
+{
+    <Chart Config="_pieConfig"></Chart>
+}
+
+@code {
+    private PieConfig _pieConfig;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var counts = await httpClient.GetData();
+        ConfigurePieConfig(counts);
+    }
+
+    private void ConfigurePieConfig(IEnumerable<ResponseDto> counts)
+    {
+        _pieConfig = new PieConfig
+        {
+            Options = new PieOptions()
+            {
+                Responsive = true,
+                Title = new OptionsTitle()
+                {
+                    Display = true,
+                    Text = "количество объявлений каждого типа товара"
+                }
+            }
+        };
+
+        foreach (var party in new[] { "Запчасть для радиоуправляемых моделей",
+                     "Машинка радиоуправляемая",
+                     "Игрушка радиоуправляемая",
+                     "Аксессуар для радиоуправляемых моделей"
+                 })
+        {
+            _pieConfig.Data.Labels.Add(party);
+        }
+
+        var data = counts
+            .OrderBy(c => c.Id)
+            .Select(c => c.Count);
+
+        var dataset = new PieDataset<int>(data)
+        {
+            BackgroundColor = new[]
+            {
+                ColorUtil.ColorHexString(145, 63,156),
+                ColorUtil.ColorHexString(255,174,173),
+                ColorUtil.ColorHexString(165,24,46),
+                ColorUtil.ColorHexString(146, 214,234)
+            }
+        };
+        
+        _pieConfig.Data.Datasets.Add(dataset);
+    }
+
+}

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace DataAccess.Entities;
 
-namespace DataAccess;
-
-public partial class Product
+public class Product
 {
     public int Id { get; set; }
 

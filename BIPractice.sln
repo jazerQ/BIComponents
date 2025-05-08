@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIPractice.Web", "BIPractic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIPractice.Back", "BIPractice.Back\BIPractice.Back.csproj", "{2B948579-C874-4FCB-865A-F05341495CA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A60E1B7-EC7B-4907-854E-D5EE34309DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B948579-C874-4FCB-865A-F05341495CA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B948579-C874-4FCB-865A-F05341495CA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B948579-C874-4FCB-865A-F05341495CA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B948579-C874-4FCB-865A-F05341495CA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

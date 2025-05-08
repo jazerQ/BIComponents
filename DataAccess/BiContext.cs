@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
 
-public partial class BiContext : DbContext
+public partial class BiContext : DbContext, IAppDbContext
 {
     public BiContext()
     {
@@ -13,17 +12,15 @@ public partial class BiContext : DbContext
     public BiContext(DbContextOptions<BiContext> options)
         : base(options)
     {
+        Database.Migrate(); // автоматически применяем миграции
     }
 
     public virtual DbSet<Model> Models { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<Type> Types { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=admin;Database=BI");
-
+    public virtual DbSet<TypeOfModel> Types { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Model>(entity =>
@@ -95,7 +92,7 @@ public partial class BiContext : DbContext
             entity.Property(e => e.Productrating).HasColumnName("productrating");
         });
 
-        modelBuilder.Entity<Type>(entity =>
+        modelBuilder.Entity<TypeOfModel>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("types_pkey");
 

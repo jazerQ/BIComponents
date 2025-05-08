@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace DataAccess.Entities;
 
-namespace DataAccess;
-
-public partial class Model
+public class Model
 {
     public long Article { get; set; }
 
@@ -25,5 +22,5 @@ public partial class Model
 
     public virtual Product ArticleNavigation { get; set; } = null!;
 
-    public virtual Type? Type { get; set; }
+    public virtual TypeOfModel? Type { get; set; }
 }
