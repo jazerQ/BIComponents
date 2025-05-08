@@ -14,7 +14,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Application\Application.csproj" />
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\svg\chart-pie-svgrepo-com (1).svg" />
+      <None Include="wwwroot\svg\chart-pie-svgrepo-com.svg" />
     </ItemGroup>
 
 </Project>
