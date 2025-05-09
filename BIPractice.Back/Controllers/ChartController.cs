@@ -1,3 +1,4 @@
+using Application.Horizontal;
 using Application.PieChart.GetCountOfAnyTypes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,5 +13,11 @@ public class ChartController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> GetDataForPieChart()
     {
         return Ok(await mediator.Send(new GetCountOfAnyTypesQuery()));
+    }
+
+    [HttpGet("/horizontal")]
+    public async Task<IActionResult> GetDataForHorizontal()
+    {
+        return Ok(await mediator.Send(new GetTopFiveQuery(IsBest: true)));
     }
 }
