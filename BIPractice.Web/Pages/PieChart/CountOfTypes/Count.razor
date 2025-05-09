@@ -1,6 +1,9 @@
 @page "/PieChart/Count"
+@using Application.PieChart.GetCountOfAnyTypes
+@using Application.Services
 @using ChartJs.Blazor.PieChart
-@inject CountOfTypesHttpClient httpClient;
+@using Core.Enums
+@inject IChartHttpClient<GetCountOfAnyTypesDtoResponse> httpClient;
 
 <PageTitle>Count</PageTitle>
 
@@ -8,17 +11,21 @@
 {
     <Chart Config="_pieConfig"></Chart>
 }
+else
+{
+    <div class="text-center fs-1">Загрузка...</div>
+}
 
 @code {
     private PieConfig _pieConfig;
     
     protected override async Task OnInitializedAsync()
     {
-        var counts = await httpClient.GetData();
+        var counts = await httpClient.GetData(TypesOfGraph.Pie);
         ConfigurePieConfig(counts);
     }
 
-    private void ConfigurePieConfig(IEnumerable<ResponseDto> counts)
+    private void ConfigurePieConfig(IEnumerable<GetCountOfAnyTypesDtoResponse> counts)
     {
         _pieConfig = new PieConfig
         {
