@@ -1,0 +1,6 @@
+@BIPractice.Back_HostAddress = http://localhost:5186
+
+GET {{BIPractice.Back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

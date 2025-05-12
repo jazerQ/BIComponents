@@ -1,0 +1,61 @@
+@page "/Simple"
+@using System.Drawing
+@using Application.Horizontal
+@using Application.Services
+@using ChartJs.Blazor.BarChart
+@using Core.Enums
+@inject IChartHttpClient<GetTopFiveDtoResponse> httpClient;
+<PageTitle>Simple</PageTitle>
+
+@if (_config != null)
+{
+    <Chart Config="_config"></Chart>
+}
+else
+{
+    <div class="text-center fs-1">Загрузка...</div>
+}
+
+@code {
+    private BarConfig _config;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Initialize(await httpClient.GetData(TypesOfGraph.Simple));
+    }
+
+    private void Initialize(IEnumerable<GetTopFiveDtoResponse> dtos)
+    {
+        _config = new BarConfig()
+        {
+            Options = new BarOptions()
+            {
+                Responsive = true,
+                Legend = new Legend
+                {
+                    Position = Position.Top
+                },
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "Топ Худших Товаров"
+                }
+            }
+        };
+        
+        var dataset1 = new BarDataset<float?>(dtos.Select(d => d.Rating))
+        {
+            Label = "",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(128, Color.Red)),
+            BorderColor = ColorUtil.FromDrawingColor(Color.Red),
+            BorderWidth = 1
+        };
+
+        foreach (var dto in dtos)
+        {
+            _config.Data.Labels.Add(dto.Name);
+        }
+
+        _config.Data.Datasets.Add(dataset1);
+    }
+}
