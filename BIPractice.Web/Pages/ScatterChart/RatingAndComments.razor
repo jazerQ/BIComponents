@@ -1,0 +1,65 @@
+@page "/Scatter"
+@using System.Drawing
+@using Application.Scatter
+@using Application.Services
+@using ChartJs.Blazor.LineChart
+@using ChartJs.Blazor.ScatterChart
+@using Core.Enums
+@using Point = ChartJs.Blazor.Common.Point
+@inject IChartHttpClient<GetRatingAndCommentsDtoResponse> httpClient;
+
+<PageTitle>Rating and Comments</PageTitle>
+
+@if (_config != null)
+{
+    <Chart Config="_config"></Chart>
+}
+else
+{
+    <div class="text-center fs-1">Загрузка...</div>
+}
+
+@code {
+    private ScatterConfig _config;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Initialize(await httpClient.GetData(TypesOfGraph.Scatter));
+    }
+
+    private void Initialize(IEnumerable<GetRatingAndCommentsDtoResponse> dtos)
+    {
+        _config = new ScatterConfig()
+        {
+            Options = new LineOptions()
+            {
+                Responsive = true,
+                Legend = new Legend
+                {
+                    Position = Position.Top
+                },
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "Зависимость Рейтинга товара от количества Комментариев"
+                }
+            }
+        };
+        
+        var dataset1 = new ScatterDataset(dtos.Select(d => new Point(d.CountOfComments, d.Rating)))
+        {
+            Label = "",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(128, Color.Red)),
+            BorderColor = ColorUtil.FromDrawingColor(Color.Red),
+            BorderWidth = 1
+        };
+
+        foreach (var dto in dtos)
+        {
+            _config.Data.Labels.Add(dto.Name);
+        }
+
+        _config.Data.Datasets.Add(dataset1);
+    }
+
+}

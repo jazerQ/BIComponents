@@ -3,5 +3,8 @@ namespace Core.Enums;
 public enum TypesOfGraph
 {
     Pie,
-    Horizontal
+    Horizontal,
+    Simple,
+    Scatter,
+    ScatterCosts
 }

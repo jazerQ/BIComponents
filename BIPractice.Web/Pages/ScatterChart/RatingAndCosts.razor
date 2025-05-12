@@ -1,0 +1,89 @@
+@page "/RatingAndCosts"
+@using System.Drawing
+@using Application.Scatter.GetRatingAndCosts
+@using Application.Services
+@using ChartJs.Blazor.LineChart
+@using ChartJs.Blazor.ScatterChart
+@using Core.Enums
+@using Point = ChartJs.Blazor.Common.Point
+@inject IChartHttpClient<GetRatingAndCostsDtoResponse> httpClient;
+
+<PageTitle>Scatter Chart Rating And Costs</PageTitle>
+
+@if (_config != null)
+{
+    <Chart Config="_config"></Chart>
+    
+    <Chart Config="_configSecond"></Chart>
+}
+else
+{
+    <div class="text-center fs-1">Загрузка...</div>
+}
+
+@code {
+    private ScatterConfig _config;
+
+    private ScatterConfig _configSecond;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Initialize(await httpClient.GetData(TypesOfGraph.ScatterCosts));
+    }
+
+    private void Initialize(IEnumerable<GetRatingAndCostsDtoResponse> dtos)
+    {
+        _config = new ScatterConfig()
+        {
+            Options = new LineOptions()
+            {
+                Responsive = true,
+                Legend = new Legend()
+                {
+                    Position = Position.Top
+                },
+                Title = new OptionsTitle()
+                {
+                    Display = true,
+                    Text = "Зависимость Рейтинга от Цен"
+                }
+            }
+        };
+        
+        _configSecond = new ScatterConfig()
+        {
+            Options = new LineOptions()
+            {
+                Responsive = true,
+                Legend = new Legend()
+                {
+                    Position = Position.Top
+                },
+                Title = new OptionsTitle()
+                {
+                    Display = true,
+                    Text = "Зависимость Рейтинга от Цен со Скидками"
+                }
+            }
+        };
+        
+        var dataset1 = new ScatterDataset(dtos.Select(d => new Point(d.Price, d.Rating)))
+        {
+            Label = "Цены без скидки и рейтинг",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(128, Color.Red)),
+            BorderColor = ColorUtil.FromDrawingColor(Color.Red),
+            BorderWidth = 1
+        };
+
+        var dataset2 = new ScatterDataset(dtos.Select(d => new Point(d.PriceWithCard, d.Rating)))
+        {
+            Label = "Цены со скидкой и рейтинг",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(255, 248, 220)),
+            BorderColor = ColorUtil.FromDrawingColor(Color.FromArgb(205, 133, 63)),
+            BorderWidth = 2
+        };
+        
+        _config.Data.Datasets.Add(dataset1);
+        _configSecond.Data.Datasets.Add(dataset2);
+    }
+}
