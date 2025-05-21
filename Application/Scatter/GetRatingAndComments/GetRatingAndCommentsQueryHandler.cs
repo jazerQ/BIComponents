@@ -1,5 +1,6 @@
 using DataAccess;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Scatter;
 
@@ -8,7 +9,7 @@ public class GetRatingAndCommentsQueryHandler(IAppDbContext db)
 {
     public async Task<IEnumerable<GetRatingAndCommentsDtoResponse>> Handle(GetRatingAndCommentsQuery request, CancellationToken cancellationToken)
     {
-        return db.Products
+        return await db.Products
             .Where(p => 
                 p.Productrating != null &&
                 p.Countofcomments != null &&
@@ -19,6 +20,6 @@ public class GetRatingAndCommentsQueryHandler(IAppDbContext db)
             CountOfComments = p.Countofcomments!.Value,
             Rating = p.Productrating!.Value,
             Name = p.Name!
-        });
+        }).ToListAsync(cancellationToken);
     }
 }

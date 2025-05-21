@@ -1,4 +1,5 @@
 using Application.Horizontal;
+using Application.Line;
 using Application.PieChart.GetCountOfAnyTypes;
 using Application.Scatter;
 using Application.Scatter.GetRatingAndCosts;
@@ -40,4 +41,11 @@ public class ChartController(IMediator mediator) : ControllerBase
     {
         return Ok(await mediator.Send(new GetRatingAndCostsQuery()));
     }
+
+    [HttpGet("/line")]
+    public async Task<IActionResult> GetDataForLineChart()
+    {
+        return Ok(await mediator.Send(new GetCostAndQuestionsQuery()));
+    }
+    
 }

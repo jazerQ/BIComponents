@@ -6,5 +6,6 @@ public enum TypesOfGraph
     Horizontal,
     Simple,
     Scatter,
-    ScatterCosts
+    ScatterCosts,
+    Line
 }

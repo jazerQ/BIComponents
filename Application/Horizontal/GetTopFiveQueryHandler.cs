@@ -9,7 +9,7 @@ public class GetTopFiveQueryHandler(IAppDbContext db) : IRequestHandler<GetTopFi
     public async Task<IEnumerable<GetTopFiveDtoResponse>> Handle(GetTopFiveQuery request, CancellationToken cancellationToken)
     {
         return request.IsBest
-            ? db.Products
+            ? await db.Products
                 .AsNoTracking()
                 .Where(p => p.Productrating != null)
                 .OrderByDescending(p => p.Productrating)
@@ -19,8 +19,8 @@ public class GetTopFiveQueryHandler(IAppDbContext db) : IRequestHandler<GetTopFi
                     Id = p.Id,
                     Name = p.Name,
                     Rating = p.Productrating
-                })
-            : db.Products
+                }).ToListAsync(cancellationToken)
+            : await db.Products
                 .AsNoTracking()
                 .Where(p => p.Productrating != null)
                 .OrderBy(p => p.Productrating)
@@ -30,6 +30,6 @@ public class GetTopFiveQueryHandler(IAppDbContext db) : IRequestHandler<GetTopFi
                     Id = p.Id,
                     Name = p.Name,
                     Rating = p.Productrating
-                });
+                }).ToListAsync(cancellationToken);
     }
 }

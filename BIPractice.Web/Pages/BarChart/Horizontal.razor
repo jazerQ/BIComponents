@@ -19,9 +19,9 @@ else
 @code {
     private BarConfig _config;
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        Configure( await httpClient.GetData(TypesOfGraph.Horizontal));
+        Configure(await httpClient.GetData(TypesOfGraph.Horizontal));
     }
 
     private void Configure(IEnumerable<GetTopFiveDtoResponse> dtos)

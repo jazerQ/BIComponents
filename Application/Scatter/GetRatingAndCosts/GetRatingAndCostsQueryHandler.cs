@@ -1,5 +1,6 @@
 using DataAccess;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Scatter.GetRatingAndCosts;
 
@@ -7,7 +8,7 @@ public class GetRatingAndCostsQueryHandler(IAppDbContext db) : IRequestHandler<G
 {
     public async Task<IEnumerable<GetRatingAndCostsDtoResponse>> Handle(GetRatingAndCostsQuery request, CancellationToken cancellationToken)
     {
-        return db.Products
+        return await db.Products
             .Where(p =>
                 p.Defaultprice != null &&
                 p.Productrating != null)
@@ -17,6 +18,6 @@ public class GetRatingAndCostsQueryHandler(IAppDbContext db) : IRequestHandler<G
                 Price = p.Defaultprice!.Value,
                 PriceWithCard = p.Pricewithcard!.HasValue ? p.Pricewithcard.Value : p.Defaultprice.Value,
                 Rating = p.Productrating!.Value
-            });
+            }).ToListAsync(cancellationToken);
     }
 }

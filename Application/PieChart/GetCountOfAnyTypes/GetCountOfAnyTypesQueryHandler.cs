@@ -9,13 +9,13 @@ public class GetCountOfAnyTypesQueryHandler(IAppDbContext db)
 {
     public async Task<IEnumerable<GetCountOfAnyTypesDtoResponse>> Handle(GetCountOfAnyTypesQuery request, CancellationToken cancellationToken)
     {
-        return db.Models
+        return await db.Models
             .AsNoTracking()
             .GroupBy(p => p.TypeId)
             .Select(g => new GetCountOfAnyTypesDtoResponse()
             {
                 Id = g.Key,
                 Count = g.Count()
-            });
+            }).ToListAsync(cancellationToken);
     }
 }
