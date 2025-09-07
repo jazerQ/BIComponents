@@ -1,25 +1,31 @@
+using System.Globalization;
 using DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Application.Scatter;
 
-public class GetRatingAndCommentsQueryHandler(IAppDbContext db) 
+public class GetRatingAndCommentsQueryHandler(IMongoDatabase db) 
     : IRequestHandler<GetRatingAndCommentsQuery, IEnumerable<GetRatingAndCommentsDtoResponse>>
 {
     public async Task<IEnumerable<GetRatingAndCommentsDtoResponse>> Handle(GetRatingAndCommentsQuery request, CancellationToken cancellationToken)
     {
-        return await db.Products
+        var collection = db.GetCollection<BsonDocument>("BIObjects");
+        
+        return collection
+            .AsQueryable()
             .Where(p => 
-                p.Productrating != null &&
-                p.Countofcomments != null &&
-                p.Name != null)
+                !string.IsNullOrWhiteSpace(p["ProductRating"].AsString) &&
+                !string.IsNullOrWhiteSpace(p["CountOfComments"].AsString) &&
+                !string.IsNullOrEmpty(p["Name"].AsString))
             .Select(p => new GetRatingAndCommentsDtoResponse()
         {
-            Id = p.Id,
-            CountOfComments = p.Countofcomments!.Value,
-            Rating = p.Productrating!.Value,
-            Name = p.Name!
-        }).ToListAsync(cancellationToken);
+            Id = GlobalHelper.OnlyDigits(p["Id"].AsString),
+            CountOfComments = GlobalHelper.OnlyDigits(p["CountOfComments"].AsString),
+            Rating = float.Parse(p["ProductRating"].AsString, CultureInfo.InvariantCulture),
+            Name = p["Name"].AsString
+        }).ToList();
     }
 }

@@ -1,126 +1,50 @@
-﻿using System.Globalization;
-using System.Text;
-using Core.Models;
-using CsvHelper;
-using CsvHelper.Configuration;
-using Dapper;
-using Npgsql;
+﻿using System.Text;
+using Aspose.Cells;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-string csvPath = @"Амортизаторы Remo Hobby (1).csv";
+//Настраиваем кодировку ввода/вывода
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+Console.InputEncoding = System.Text.Encoding.UTF8;
 
-string connectionString = "Host=localhost;Username=postgres;Password=admin;Database=BI";
+//подключаем конфиги
+var connectionString = JObject.Parse(File.ReadAllText("appsettings.json"));
 
-var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+//если нет, то выбрасываем ошибку с тем что конфиг не найден
+if (connectionString["MongoConnectionString"] == null || connectionString["MongoDatabaseName"] == null)
+    throw new FileNotFoundException("Mongo ConnectionString not found");
+
+//генерируем объект MongoUrl для создания MongoClient
+var mongoUrl = new MongoUrl(connectionString["MongoConnectionString"].ToString());
+var dbName = connectionString["MongoDatabaseName"].ToString();
+
+var db = new MongoClient(mongoUrl).GetDatabase(dbName);
+
+//получаю коллекцию с BI объектами
+var collection = db.GetCollection<BsonDocument>("BIObjects");
+
+//для нас файл этот название у него - Амортизаторы Remo Hobby (1).csv
+Console.WriteLine("Впишите имя файла или полный путь до файла - ");
+var filename = Console.ReadLine() ?? throw new NullReferenceException("Ввод не может быть пустым");
+
+var wb = new Workbook(filename, new TxtLoadOptions(LoadFormat.Csv)
 {
-    Delimiter = ",",
+    Separator = ',',
     Encoding = Encoding.UTF8,
-    HasHeaderRecord = true
-};
+    HasFormula = false
+});
 
-using var reader = new StreamReader(csvPath);
-using var csv = new CsvReader(reader, config);
-
-var products = csv.GetRecords<Damper>().ToList();
-
-var conn = new NpgsqlConnection(connectionString);
-
-var productsTable = products.Select(p =>
+var sheet = wb.Worksheets.First();
+for (int row = 1; row < sheet.Cells.MaxDataRow; row++)
 {
-    var defaultPriceInt = int.Parse(p.DefaultPrice.Replace("\u20bd", "").Replace("\u2009", ""));
-    var priceWithCardInt = string.IsNullOrEmpty(p.PriceWithCard) ? 0 : int.Parse(p.PriceWithCard.Replace("\u20bd", "").Replace("\u2009", ""));
-    return new
+    var doc = new BsonDocument();
+    for (int col = 0; col < sheet.Cells.MaxDataColumn; col++)
     {
-        p.Id,
-        p.Name,
-        p.Link,
-        defaultPriceInt,
-        priceWithCardInt,
-        p.ProductRating,
-        p.CountOfComments,
-        p.CountOfQuestions,
-        p.Article,
-        p.Country,
-    };
-}).ToList();
-
-var modelsTable = products.Select(p =>
-{
-
-    var type = DamperType.Types.IndexOf(p.Type) + 1;
-    return new
-    {
-        p.PartNumber,
-        p.Article,
-        type,
-        p.Color,
-        p.Transport,
-        p.TypeOfControl,
-        p.Scale,
-        p.ActionRadius,
-        p.Peculiarities
-    };
-}).ToList();
-
-conn.Open();
-conn.Execute(@"DROP TABLE IF EXISTS Types CASCADE");
-conn.Execute(@"CREATE TABLE Types (
-    id SERIAL PRIMARY KEY ,
-    type varchar(255)
-    )");
-conn.Execute(@"DROP TABLE IF EXISTS Products");
-conn.Execute(@"CREATE TABLE Products(
-    id SERIAL PRIMARY KEY,
-    Name varchar(255),
-    Link TEXT,
-    DefaultPrice int,
-    PriceWithCard int,
-    ProductRating real,
-    CountOfComments int,
-    CountOfQuestions int,
-    article BIGINT UNIQUE, 
-    Country varchar(255)
-)");
-
-conn.Execute(@"DROP TABLE IF EXISTS Models");
-conn.Execute(@"CREATE TABLE Models(
-    article BIGINT PRIMARY KEY,
-    part_number varchar(255) ,
-    color varchar(255),
-    transport varchar(255),
-    type_of_control varchar(255),
-    scale varchar(255),
-    action_radius varchar(255),
-    peculiarities varchar(255),
-    type_id INT,
-    FOREIGN KEY (type_id) REFERENCES Types(id),
-    FOREIGN KEY (article) REFERENCES Products(article)
-)");
-
-foreach (var type in DamperType.Types)
-{
-    conn.Execute(@"INSERT INTO Types (type) VALUES (@type)", new {type});
+        var header = sheet.Cells[0, col].Value.ToString();
+        doc[header] = sheet.Cells[row, col].StringValue;
+    }
+    
+    collection.InsertOne(doc);
 }
-conn.Execute(@"INSERT INTO Products(id,
-    Name,
-    Link ,
-    DefaultPrice,
-    PriceWithCard,
-    ProductRating ,
-    CountOfComments,
-    CountOfQuestions,
-    article,
-    Country) VALUES (@Id, @Name, @Link, @defaultPriceInt, @priceWithCardInt, @ProductRating, @CountOfComments, @CountOfQuestions, @Article, @Country)",
-    productsTable);
-
-conn.Execute(@"INSERT INTO Models 
-(part_number, article, color, transport, type_of_control, scale, action_radius, peculiarities, type_id)
-VALUES (@PartNumber, @Article, @Color, @Transport, @TypeOfControl, @Scale, @ActionRadius, @Peculiarities, @type)",
-    modelsTable);
-
-
-
-Console.WriteLine("Успешно сохранилось!");
-// foreach (var product in products)
-// {
-//     Console.WriteLine($"{product.Id} {product.Article} {product.Name} {product.Color} {product.DefaultPrice}");
-// }

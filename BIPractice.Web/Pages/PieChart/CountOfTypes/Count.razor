@@ -50,7 +50,7 @@ else
         }
 
         var data = counts
-            .OrderBy(c => c.Id)
+            .OrderBy(c => c.Name)
             .Select(c => c.Count);
 
         var dataset = new PieDataset<int>(data)

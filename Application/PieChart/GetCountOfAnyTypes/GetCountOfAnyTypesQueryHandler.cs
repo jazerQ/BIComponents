@@ -1,21 +1,26 @@
 using DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Application.PieChart.GetCountOfAnyTypes;
 
-public class GetCountOfAnyTypesQueryHandler(IAppDbContext db) 
+public class GetCountOfAnyTypesQueryHandler(IMongoDatabase db) 
     : IRequestHandler<GetCountOfAnyTypesQuery, IEnumerable<GetCountOfAnyTypesDtoResponse>>
 {
     public async Task<IEnumerable<GetCountOfAnyTypesDtoResponse>> Handle(GetCountOfAnyTypesQuery request, CancellationToken cancellationToken)
     {
-        return await db.Models
+        var collection = db.GetCollection<BsonDocument>("BIObjects");
+        
+        return collection
+            .AsQueryable()
             .AsNoTracking()
-            .GroupBy(p => p.TypeId)
+            .GroupBy(p => p["Type"].AsString)
             .Select(g => new GetCountOfAnyTypesDtoResponse()
             {
-                Id = g.Key,
+                Name = g.Key,
                 Count = g.Count()
-            }).ToListAsync(cancellationToken);
+            }).ToList();
     }
 }
