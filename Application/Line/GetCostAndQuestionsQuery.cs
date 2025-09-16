@@ -16,7 +16,12 @@ public class GetCostAndQuestionsQueryHandler(IMongoDatabase db) : IRequestHandle
         CancellationToken cancellationToken)
     {
         var collection = db.GetCollection<BsonDocument>("BIObjects");
-
+        
+        if (await collection.CountDocumentsAsync(_ => true, cancellationToken: cancellationToken) == 0)
+        {
+            throw new Exception("в коллекции пусто");
+        }
+        
         var filter = Builders<BsonDocument>.Filter.And(
             Builders<BsonDocument>.Filter.Ne("DefaultPrice", BsonNull.Value),
             Builders<BsonDocument>.Filter.Ne("DefaultPrice", ""), // не пустая строка

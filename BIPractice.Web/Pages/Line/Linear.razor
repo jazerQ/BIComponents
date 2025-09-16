@@ -15,15 +15,24 @@
 }
 else
 {
-    <div class="text-center fs-1">Загрузка...</div>
+    <div class="text-center fs-1">@Message</div>
 }
 
 @code {
     private LineConfig _config;
 
+    private string Message = "Загрузка...";
+    
     protected override async Task OnInitializedAsync()
     {
-        Configure(await httpClient.GetData(TypesOfGraph.Line));
+        var data = (await httpClient.GetData(TypesOfGraph.Line)).ToList();
+
+        if (!data.Any())
+        {
+            Message = "Даннных нет";
+        }
+        
+        Configure(data);
     }
 
     private void Configure(IEnumerable<GetCostAndQuestionsDtoResponse> dtos)

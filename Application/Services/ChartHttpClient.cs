@@ -29,7 +29,7 @@ public class ChartHttpClient<T>(ILogger<ChartHttpClient<T>> logger, HttpClient c
         catch (Exception ex)
         {
             logger.LogWarning(ex.Message);
-            throw;
+            return [];
         }
     }
 }

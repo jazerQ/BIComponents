@@ -14,6 +14,11 @@ public class GetRatingAndCommentsQueryHandler(IMongoDatabase db)
     {
         var collection = db.GetCollection<BsonDocument>("BIObjects");
         
+        if (await collection.CountDocumentsAsync(_ => true, cancellationToken: cancellationToken) == 0)
+        {
+            throw new Exception("в коллекции пусто");
+        }
+        
         return collection
             .AsQueryable()
             .Where(p => 

@@ -15,37 +15,79 @@ public class ChartController(IMediator mediator) : ControllerBase
     [HttpGet("/pie")]
     public async Task<IActionResult> GetDataForPieChart()
     {
-        return Ok(await mediator.Send(new GetCountOfAnyTypesQuery()));
+        try
+        {
+            return Ok(await mediator.Send(new GetCountOfAnyTypesQuery()));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("/horizontal")]
     public async Task<IActionResult> GetDataForHorizontal()
     {
-        return Ok(await mediator.Send(new GetTopFiveQuery(IsBest: true)));
+        try
+        {
+            return Ok(await mediator.Send(new GetTopFiveQuery(IsBest: true)));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("/simple")]
     public async Task<IActionResult> GetDataForSimpleBarChart()
     {
-        return Ok(await mediator.Send(new GetTopFiveQuery(IsBest: false)));
+        try
+        {
+            return Ok(await mediator.Send(new GetTopFiveQuery(IsBest: false)));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("/scatter")]
     public async Task<IActionResult> GetDataForScatterChart()
     {
-        return Ok(await mediator.Send(new GetRatingAndCommentsQuery()));
+        try
+        {
+            return Ok(await mediator.Send(new GetRatingAndCommentsQuery()));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("/scattercosts")]
     public async Task<IActionResult> GetDataForScatter()
     {
-        return Ok(await mediator.Send(new GetRatingAndCostsQuery()));
+        try
+        {
+            return Ok(await mediator.Send(new GetRatingAndCostsQuery()));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("/line")]
     public async Task<IActionResult> GetDataForLineChart()
     {
-        return Ok(await mediator.Send(new GetCostAndQuestionsQuery()));
+        try
+        {
+            return Ok(await mediator.Send(new GetCostAndQuestionsQuery()));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     
 }

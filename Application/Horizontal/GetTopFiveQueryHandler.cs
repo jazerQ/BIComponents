@@ -13,6 +13,11 @@ public class GetTopFiveQueryHandler(IMongoDatabase db) : IRequestHandler<GetTopF
     {
         var collection = db.GetCollection<BsonDocument>("BIObjects");
 
+        if (await collection.CountDocumentsAsync(_ => true, cancellationToken: cancellationToken) == 0)
+        {
+            throw new Exception("в коллекции пусто");
+        }
+        
         var filter = Builders<BsonDocument>.Filter.And(
             Builders<BsonDocument>.Filter.Ne("ProductRating", BsonNull.Value),
             Builders<BsonDocument>.Filter.Ne("ProductRating", "")
