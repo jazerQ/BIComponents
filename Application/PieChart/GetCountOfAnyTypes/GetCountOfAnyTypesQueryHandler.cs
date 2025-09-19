@@ -17,15 +17,23 @@ public class GetCountOfAnyTypesQueryHandler(IMongoDatabase db)
         {
             throw new Exception("в коллекции пусто");
         }
-        
-        return collection
-            .AsQueryable()
-            .AsNoTracking()
-            .GroupBy(p => p["Type"].AsString)
-            .Select(g => new GetCountOfAnyTypesDtoResponse()
+
+        var list = (await collection
+            .Aggregate()
+            .Group(new BsonDocument
             {
-                Name = g.Key,
-                Count = g.Count()
-            }).ToList();
+                { "_id", "$Type" },
+                { "count", new BsonDocument("$sum", 1) }
+            }).ToListAsync(cancellationToken));
+        foreach (var item in list)
+        {
+            Console.WriteLine(item);
+        }
+
+        return list.Select(i => new GetCountOfAnyTypesDtoResponse
+        {
+            Count = i["count"].AsInt32,
+            Name = i["_id"].AsString
+        });
     }
 }

@@ -13,6 +13,10 @@
     </div>
     
     <button class="btn btn-primary" @onclick="UploadFiles" disabled="@(!files.Any())">
+        @if (isSuccess)
+        {
+            <i class="bi bi-check-lg"></i>
+        }
         Загрузить
     </button>
     
@@ -26,7 +30,7 @@
     private List<IBrowserFile> files = new();
     private string? message;
     private HttpClient _client = new HttpClient();
-    
+    private bool isSuccess = false;
     
     private void HandleSelected(InputFileChangeEventArgs e)
     {
@@ -36,7 +40,31 @@
 
     private async Task UploadFiles()
     {
-        message = "Файлы загружены";
+        isSuccess = false;
+        if (files == null || files.Count == 0)
+        {
+            message = "Файлов нет";
+            return;
+        }
+
+        var file = files.First();
+        
+        using var content = new MultipartFormDataContent();
+        using var fileStream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10mb
+        using var streamContent = new StreamContent(fileStream);
+        content.Add(streamContent, "file", file.Name);
+
+        var response = await _client.PostAsync("http://localhost:5186/upload-file", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            message = "Файлы загружены";
+            isSuccess = true;
+        }
+        else
+        {
+            message = "Ошибка загрузки";
+        }
     }
 
 }
