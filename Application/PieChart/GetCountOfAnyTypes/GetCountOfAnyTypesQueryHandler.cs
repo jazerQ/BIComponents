@@ -18,18 +18,15 @@ public class GetCountOfAnyTypesQueryHandler(IMongoDatabase db)
             throw new Exception("в коллекции пусто");
         }
 
-        var list = (await collection
+        var list = await collection
             .Aggregate()
             .Group(new BsonDocument
             {
                 { "_id", "$Type" },
                 { "count", new BsonDocument("$sum", 1) }
-            }).ToListAsync(cancellationToken));
-        foreach (var item in list)
-        {
-            Console.WriteLine(item);
-        }
-
+            })
+            .ToListAsync(cancellationToken);
+        
         return list.Select(i => new GetCountOfAnyTypesDtoResponse
         {
             Count = i["count"].AsInt32,
