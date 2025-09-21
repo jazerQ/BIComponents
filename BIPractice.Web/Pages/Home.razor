@@ -5,25 +5,33 @@
 <PageTitle>Home</PageTitle>
 
 <div class="container mt-4">
-    <h3>Загрузка файлов</h3>
-    
-    <div class="mb-3">
-        <label for="formFile" class="form-label">Выберите файл</label>
-        <InputFile id="formFile" OnChange="HandleSelected" class="form-control" multiple/>
-    </div>
-    
-    <button class="btn btn-primary" @onclick="UploadFiles" disabled="@(!files.Any())">
-        @if (isSuccess)
+    <section class="py-5 px-4 px-md-5">
+        <div class="col-md-8">
+            <h1 class="fw-bold mb-3">Аналитические схемы</h1>
+            <p class="text-secondary fs-5">Сайт для демонстрации моих схем, созданных в рамках учебной практики</p>
+        </div>
+    </section>
+    <section class="py-5 px-4 px-md-5">
+        <h5 class="text-secondary fs-5">Загрузка файлов</h5>
+        <p class="text-secondary fs-6">Здесь вы можете загрузить csv файл, для аналитики. На уровне BIPrictice.Back. Данные из текстового файла записываются в облачную базу данных</p>
+        <div class="mb-3">
+            <label for="formFile" class="form-label text-secondary fs-6">Выберите файл</label>
+            <InputFile id="formFile" OnChange="HandleSelected" class="form-control" multiple/>
+        </div>
+
+        <button class="btn btn-primary" @onclick="UploadFiles" disabled="@(!files.Any())">
+            @if (isSuccess)
+            {
+                <i class="bi bi-check-lg"></i>
+            }
+            Загрузить
+        </button>
+
+        @if (!string.IsNullOrEmpty(message))
         {
-            <i class="bi bi-check-lg"></i>
+            <div class="alert alert-info mt-3">@message</div>
         }
-        Загрузить
-    </button>
-    
-    @if (!string.IsNullOrEmpty(message))
-    {
-        <div class="alert alert-info mt-3">@message</div>
-    }
+    </section>
 </div>
 
 @code {

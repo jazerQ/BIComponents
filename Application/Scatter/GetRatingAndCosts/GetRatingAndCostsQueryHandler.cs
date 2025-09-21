@@ -18,11 +18,15 @@ public class GetRatingAndCostsQueryHandler(IMongoDatabase db) : IRequestHandler<
             throw new Exception("в коллекции пусто");
         }
         
-        return collection
-            .AsQueryable()    
-            .Where(p =>
-                string.IsNullOrWhiteSpace(p["DefaultPrice"].AsString) &&
-                string.IsNullOrWhiteSpace(p["ProductRating"].AsString))
+        var filter = Builders<BsonDocument>.Filter.And(
+            Builders<BsonDocument>.Filter.Ne("DefaultPrice", BsonNull.Value),
+            Builders<BsonDocument>.Filter.Ne("DefaultPrice", string.Empty),
+            Builders<BsonDocument>.Filter.Ne("ProductRating", BsonNull.Value),
+            Builders<BsonDocument>.Filter.Ne("ProductRating", string.Empty));
+        
+        return (await collection
+            .Find(filter)
+            .ToListAsync(cancellationToken))
             .Select(p => new GetRatingAndCostsDtoResponse()
             {
                 Id = GlobalHelper.OnlyDigits(p["Id"].AsString),

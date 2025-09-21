@@ -18,19 +18,24 @@ public class GetRatingAndCommentsQueryHandler(IMongoDatabase db)
         {
             throw new Exception("в коллекции пусто");
         }
+
+        var filter = Builders<BsonDocument>.Filter.And(
+            Builders<BsonDocument>.Filter.Ne("ProductRating", BsonNull.Value),
+            Builders<BsonDocument>.Filter.Ne("ProductRating", string.Empty),
+            Builders<BsonDocument>.Filter.Ne("CountOfComments", BsonNull.Value),
+            Builders<BsonDocument>.Filter.Ne("CountOfComments", string.Empty),
+            Builders<BsonDocument>.Filter.Ne("Name", BsonNull.Value),
+            Builders<BsonDocument>.Filter.Ne("Name", string.Empty));
         
-        return collection
-            .AsQueryable()
-            .Where(p => 
-                !string.IsNullOrWhiteSpace(p["ProductRating"].AsString) &&
-                !string.IsNullOrWhiteSpace(p["CountOfComments"].AsString) &&
-                !string.IsNullOrEmpty(p["Name"].AsString))
+        return (await collection
+            .Find(filter)
+            .ToListAsync(cancellationToken))
             .Select(p => new GetRatingAndCommentsDtoResponse()
-        {
-            Id = GlobalHelper.OnlyDigits(p["Id"].AsString),
-            CountOfComments = GlobalHelper.OnlyDigits(p["CountOfComments"].AsString),
-            Rating = float.Parse(p["ProductRating"].AsString, CultureInfo.InvariantCulture),
-            Name = p["Name"].AsString
-        }).ToList();
+            {
+                Id = GlobalHelper.OnlyDigits(p["Id"].AsString),
+                CountOfComments = GlobalHelper.OnlyDigits(p["CountOfComments"].AsString),
+                Rating = float.Parse(p["ProductRating"].AsString, CultureInfo.InvariantCulture),
+                Name = p["Name"].AsString
+            }).ToList();
     }
 }
