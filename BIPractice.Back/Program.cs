@@ -1,6 +1,7 @@
 using Application;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +11,14 @@ builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<BiContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("Db"))
-);
+#region подключение к базе данных
+string connectionString = builder.Configuration["MongoConnectionString"] ?? throw new ArgumentNullException("MongoConnectionString not found");
+
+string databaseName = builder.Configuration["MongoDatabaseName"] ?? throw new ArgumentNullException("MongoDatabaseName not found");
+
+builder.Services.AddSingleton<IMongoDatabase>(sp => new MongoClient(connectionString).GetDatabase(databaseName));
+
+#endregion
 
 builder.Services.AddScoped<IAppDbContext, BiContext>();
 

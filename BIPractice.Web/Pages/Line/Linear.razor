@@ -1,0 +1,96 @@
+@page "/Linear"
+@using System.Drawing
+@using Application.Line
+@using Application.Services
+@using ChartJs.Blazor.LineChart
+@using Point = ChartJs.Blazor.Common.Point
+@using Core.Enums
+@inject IChartHttpClient<GetCostAndQuestionsDtoResponse> httpClient;
+
+<PageTitle>Simple line chart</PageTitle>
+
+@if (_config != null)
+{
+    <Chart Config="_config"></Chart>
+}
+else
+{
+    <div class="text-center fs-1">@Message</div>
+}
+
+@code {
+    private LineConfig _config;
+
+    private string Message = "Загрузка...";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var data = (await httpClient.GetData(TypesOfGraph.Line)).ToList();
+
+        if (!data.Any())
+        {
+            Message = "Даннных нет";
+        }
+        
+        Configure(data);
+    }
+
+    private void Configure(IEnumerable<GetCostAndQuestionsDtoResponse> dtos)
+    {
+        #region InitLineConfig
+        _config = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "Зависимость количества вопросв от цены"
+                },
+                Scales = new Scales
+                {
+                    XAxes = new List<CartesianAxis>
+                    {
+                        new LinearCartesianAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                Display = true,
+                                LabelString = "Цена"
+                            }
+                        }
+                    },
+                    YAxes = new List<CartesianAxis>
+                    {
+                        new LinearCartesianAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                Display = true,
+                                LabelString = "Количество вопросов"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        #endregion
+
+        foreach (var dto in dtos)
+        {
+            Console.WriteLine($"Цена: {dto.Cost}, Число вопросов: {dto.CountOfQuestions}");
+        }
+
+        IDataset<Point> dataset = new LineDataset<Point>(dtos.Select(dto => new Point(dto.Cost, dto.CountOfQuestions)))
+        {
+            Label = "вопросы с Озон, как они зависят от цены",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(128, Color.Red)),
+            BorderColor = ColorUtil.FromDrawingColor(Color.DarkBlue),
+            BorderWidth = 1,
+            Fill = false
+        };
+
+        _config.Data.Datasets.Add(dataset);
+    }
+}

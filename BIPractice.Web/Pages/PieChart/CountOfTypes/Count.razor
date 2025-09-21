@@ -13,15 +13,23 @@
 }
 else
 {
-    <div class="text-center fs-1">Загрузка...</div>
+    <div class="text-center fs-1">@Message</div>
 }
 
 @code {
     private PieConfig _pieConfig;
+
+    private string Message = "Загрузка...";
     
     protected override async Task OnInitializedAsync()
     {
-        var counts = await httpClient.GetData(TypesOfGraph.Pie);
+        var counts = (await httpClient.GetData(TypesOfGraph.Pie)).ToList();
+
+        if (!counts.Any())
+        {
+            Message = "Данных нет";
+        }
+        
         ConfigurePieConfig(counts);
     }
 
@@ -50,7 +58,7 @@ else
         }
 
         var data = counts
-            .OrderBy(c => c.Id)
+            .OrderBy(c => c.Name)
             .Select(c => c.Count);
 
         var dataset = new PieDataset<int>(data)

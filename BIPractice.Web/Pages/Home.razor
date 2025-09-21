@@ -1,56 +1,78 @@
 ﻿@page "/"
 @using ChartJs.Blazor.PieChart
 
+
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container mt-4">
+    <section class="py-5 px-4 px-md-5">
+        <div class="col-md-8">
+            <h1 class="fw-bold mb-3">Аналитические схемы</h1>
+            <p class="text-secondary fs-5">Сайт для демонстрации моих схем, созданных в рамках учебной практики</p>
+        </div>
+    </section>
+    <section class="py-5 px-4 px-md-5">
+        <h5 class="text-secondary fs-5">Загрузка файлов</h5>
+        <p class="text-secondary fs-6">Здесь вы можете загрузить csv файл, для аналитики. На уровне BIPrictice.Back. Данные из текстового файла записываются в облачную базу данных</p>
+        <div class="mb-3">
+            <label for="formFile" class="form-label text-secondary fs-6">Выберите файл</label>
+            <InputFile id="formFile" OnChange="HandleSelected" class="form-control" multiple/>
+        </div>
 
-Welcome to your new app.
-<button class="btn btn-primary">Добавить</button>
-<Chart Config="_pieConfig" @ref="_pieChart"></Chart>
+        <button class="btn btn-primary" @onclick="UploadFiles" disabled="@(!files.Any())">
+            @if (isSuccess)
+            {
+                <i class="bi bi-check-lg"></i>
+            }
+            Загрузить
+        </button>
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="alert alert-info mt-3">@message</div>
+        }
+    </section>
+</div>
 
 @code {
-    private PieConfig _pieConfig;
-    private Chart _pieChart;    
-
-
-    protected override void OnInitialized()
+    private List<IBrowserFile> files = new();
+    private string? message;
+    private HttpClient _client = new HttpClient();
+    private bool isSuccess = false;
+    
+    private void HandleSelected(InputFileChangeEventArgs e)
     {
-        ConfigurePieConfig();
+        files = e.GetMultipleFiles().ToList();
+        message = $"{files.Count()} файлов выбрано";
     }
 
-    private void ConfigurePieConfig()
+    private async Task UploadFiles()
     {
-        _pieConfig = new PieConfig();
-
-        _pieConfig.Options = new PieOptions()
+        isSuccess = false;
+        if (files == null || files.Count == 0)
         {
-            Responsive = true,
-            Title = new OptionsTitle()
-            {
-                Display = true,
-                Text = "Title My Chart"
-            }
-        };
-        
-        foreach (var party in new[] { "Party 1", "Party 2", "Party 3" })
-        {
-            _pieConfig.Data.Labels.Add(party);
+            message = "Файлов нет";
+            return;
         }
 
-        var dataset = new PieDataset<int>([35, 50, 10, 5])
-        {
-            BackgroundColor = new[]
-            {
-                ColorUtil.ColorHexString(145, 63,156),
-                ColorUtil.ColorHexString(255,174,173),
-                ColorUtil.ColorHexString(165,24,46),
-                ColorUtil.ColorHexString(146, 214,234)
-            }
-        };
+        var file = files.First();
         
-        _pieConfig.Data.Datasets.Add(dataset);
+        using var content = new MultipartFormDataContent();
+        using var fileStream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10mb
+        using var streamContent = new StreamContent(fileStream);
+        content.Add(streamContent, "file", file.Name);
+
+        var response = await _client.PostAsync("http://localhost:5186/upload-file", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            message = "Файлы загружены";
+            isSuccess = true;
+        }
+        else
+        {
+            message = "Ошибка загрузки";
+        }
     }
 
-   
 }

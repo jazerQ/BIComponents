@@ -13,15 +13,24 @@
 }
 else
 {
-    <div class="text-center fs-1">Загрузка...</div>
+    <div class="text-center fs-1">@Message</div>
 }
 
 @code {
     private BarConfig _config;
 
+    private string Message = "Загрузка...";
+    
     protected override async Task OnInitializedAsync()
     {
-        Initialize(await httpClient.GetData(TypesOfGraph.Simple));
+        var dataOfGraph = (await httpClient.GetData(TypesOfGraph.Simple)).ToList();
+
+        if (!dataOfGraph.Any())
+        {
+            Message = "Данных нет";
+        }
+        
+        Initialize(dataOfGraph);
     }
 
     private void Initialize(IEnumerable<GetTopFiveDtoResponse> dtos)
